@@ -15,6 +15,7 @@
 - criar um .env com os seguintes campos: 
 
 ```
+-----BEGIN .ENV-----
 PORT=3333
 
 DB_HOST=db_host
