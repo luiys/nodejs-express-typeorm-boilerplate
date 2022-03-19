@@ -1,0 +1,1 @@
+typeorm-model-generator -h db_host -u db_user -x "db_password" -d db_name -e mysql -o .
