@@ -1,6 +1,6 @@
-import cryptojs from 'crypto-js';
+import cryptojs from 'crypto-js'
 
-export default function crypto (text: string): string {
+export default function crypto(text: string): string {
 
     const start = process.env.HASH_SECRET_KEY
     const senhaUtf16 = cryptojs.enc.Utf16LE.parse(start + text)

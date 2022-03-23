@@ -1,69 +1,76 @@
 import nodemailer from 'nodemailer'
-import { Email } from '../types/Email';
-import { saveEmailLog } from '../loggers/emailLogger';
+import { Email } from '../types/Email'
+import { saveEmailLog } from '../loggers/emailLogger'
 import conf from '../api.config.json'
 
 export default class EmailService {
 
-	public static async sendOAuth2(email: Email): Promise<boolean> {
+    public static async sendOAuth2(email: Email): Promise<boolean> {
 
-		const CLIENT_ID = process.env.CLIENT_ID
-		const CLIENT_SECRET = process.env.CLIENT_SECRET
-		const REDIRECT_URI = 'https://developers.google.com/oauthplayground' //? SITE PARA GERAR OS TOKENS
-		const REFRESH_TOKEN = process.env.REFRESH_TOKEN
+        const CLIENT_ID = process.env.CLIENT_ID
+        const CLIENT_SECRET = process.env.CLIENT_SECRET
+        // 'https://developers.google.com/oauthplayground' //? SITE PARA GERAR OS TOKENS
+        const REFRESH_TOKEN = process.env.REFRESH_TOKEN
 
-		const transporter = nodemailer.createTransport({
-			service: 'gmail',
-			auth: {
-				type: "OAuth2",
-				user: process.env.EMAIL_USER,
-				clientId: CLIENT_ID,
-				clientSecret: CLIENT_SECRET,
-				refreshToken: REFRESH_TOKEN,
-			}
-		});
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                type: 'OAuth2',
+                user: process.env.EMAIL_USER,
+                clientId: CLIENT_ID,
+                clientSecret: CLIENT_SECRET,
+                refreshToken: REFRESH_TOKEN,
+            }
+        })
 
-		if (!conf.sendEmails) return true;
+        if (!conf.sendEmails) return true
 
-		return transporter.sendMail(email)
-			.then(() => { saveEmailLog(`Email enviado para '${email.to}'`); return true })
-			.catch((error) => { saveEmailLog({ msg: `Erro ao enviar email para '${email.to}'`, error }); return false })
+        try {
 
-	}
+            await transporter.sendMail(email)
+            saveEmailLog(`Email enviado para '${email.to}'`)
+            return true
 
-	public static async send(email: Email): Promise<boolean> {
+        } catch (error) {
 
-		const transporter = nodemailer.createTransport({
-			host: process.env.EMAIL_HOST,
-			port: Number(process.env.EMAIL_PORT),
-			secure: false,
-			requireTLS: false,
-			auth: {
-				user: process.env.EMAIL_USER,
-				pass: process.env.EMAIL_SENHA
-			},
-			tls: {
-				rejectUnauthorized: false
-			}
-		});
+            saveEmailLog({ msg: `Erro ao enviar email para '${email.to}'`, error })
+            return false
 
-		if (!conf.sendEmails) return true;
+        }
 
-		return transporter.sendMail(email)
-			.then((data) => {
+    }
 
-				console.log(data);
+    public static async send(email: Email): Promise<boolean> {
 
-				saveEmailLog(`Email enviado para '${email.to}'`);
-				return true
-			})
-			.catch((error) => {
+        const transporter = nodemailer.createTransport({
+            host: process.env.EMAIL_HOST,
+            port: Number(process.env.EMAIL_PORT),
+            secure: false,
+            requireTLS: false,
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_SENHA
+            },
+            tls: {
+                rejectUnauthorized: false
+            }
+        })
 
-				console.log(error);
+        if (!conf.sendEmails) return true
 
-				saveEmailLog({ msg: `Erro ao enviar email para '${email.to}'`, error });
-				return false
-			})
-	}
+        try {
+
+            await transporter.sendMail(email)
+            saveEmailLog(`Email enviado para '${email.to}'`)
+            return true
+
+        } catch (error) {
+
+            saveEmailLog({ msg: `Erro ao enviar email para '${email.to}'`, error })
+            return false
+
+        }
+
+    }
 
 }

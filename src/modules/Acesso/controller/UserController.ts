@@ -1,35 +1,43 @@
-import { getRepository } from "typeorm";
-import { NextFunction, Request, Response } from "express";
-import { Pessoa } from "../../../entity/Pessoa";
+import { getRepository } from 'typeorm'
+import { Request } from 'express'
+import { Pessoa } from '../../../entity/Pessoa'
 
 export class UserController {
 
-    private userRepository = getRepository(Pessoa);
+    private userRepository = getRepository(Pessoa)
 
-    async all(request: Request, response: Response, next: NextFunction) {
-        return this.userRepository.find();
+    all() {
+
+        return this.userRepository.find()
+
     }
 
-    async one(request: Request, response: Response, next: NextFunction) {
-        return this.userRepository.findOne(request.params.id);
+    one(request: Request) {
+
+        return this.userRepository.findOne(request.params.id)
+
     }
 
-    async save(request: Request, response: Response, next: NextFunction) {
-        return this.userRepository.save(request.body);
+    save(request: Request) {
+
+        return this.userRepository.save(request.body)
+
     }
 
-    async remove(request: Request, response: Response, next: NextFunction) {
+    async remove(request: Request) {
 
         try {
-            let userToRemove = await this.userRepository.findOne(request.params.id);
-            if (!userToRemove) throw new Error("User not found")
 
-            await this.userRepository.remove(userToRemove);
+            const userToRemove = await this.userRepository.findOne(request.params.id)
+            if (!userToRemove) throw new Error('User not found')
+
+            await this.userRepository.remove(userToRemove)
 
         } catch (error) {
-            return error
-        }
 
+            return error
+
+        }
 
     }
 

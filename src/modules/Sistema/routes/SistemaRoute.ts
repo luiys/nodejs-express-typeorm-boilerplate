@@ -1,10 +1,10 @@
-import { SistemaController } from "../controller/SistemaController"
+import { SistemaController } from '../controller/SistemaController'
 
 export const SistemaRoute = [
     {
-        method: "get",
-        route: "/sistema/versao",
+        method: 'get',
+        route: '/sistema/versao',
         controller: SistemaController,
-        action: "verificaVersao",
+        action: 'verificaVersao',
     }
-] 
+]
