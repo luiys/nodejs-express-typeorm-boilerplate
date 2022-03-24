@@ -1,4 +1,4 @@
-import 'reflect-metadata'
+
 import express, { NextFunction, Request, Response } from 'express'
 import { Routes } from './routes'
 import * as dotenv from 'dotenv'
