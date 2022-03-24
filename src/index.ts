@@ -1,23 +1,18 @@
 
-import express, { NextFunction, Request, Response } from 'express'
-import { Routes } from './routes'
-import * as dotenv from 'dotenv'
-import helmet from 'helmet'
 import cors from 'cors'
-import { RetornoService } from './utils/RetornoService'
-import { RateLimiterMemory } from 'rate-limiter-flexible'
-import { AppDataSource } from './connection'
+import * as dotenv from 'dotenv'
+import express, { NextFunction, Request, Response } from 'express'
+import helmet from 'helmet'
 import morgan from 'morgan'
+import { AppDataSource } from './connection'
+import { Routes } from './routes'
 import { AbstractException } from './utils/errors/AbstractException'
+import { limitRate } from './utils/limitRate'
+import { RetornoService } from './utils/RetornoService'
 
 async function run() {
 
     dotenv.config()
-
-    const limiter = new RateLimiterMemory({
-        points: 10,//quantas requisições por IP
-        duration: 15,//segundos
-    })
 
     const app = express()
     app.use(helmet())
@@ -25,20 +20,7 @@ async function run() {
         .use(morgan('dev'))
         .use(express.json())
         .use(express.urlencoded({ extended: true }))
-        .use(async (req, res, next) => {
-
-            try {
-
-                await limiter.consume(req.ip)
-                return next()
-
-            } catch (err) {
-
-                return res.status(429).json({ message: 'Too many requests', code: 429 })
-
-            }
-
-        })
+        .use(limitRate)
 
     const PORT = process.env.PORT || 3333
 
@@ -52,8 +34,8 @@ async function run() {
             const isObject = typeof result === 'object'
             const isCustomException = result instanceof AbstractException
 
-            if (isObject && 'dontSend' in result) return //Não retorna nada pois é esperado que a controller ja tenha retornado
-            if (isObject && 'flagErro' in result) return res.status(500).send(result) //Já veio no padrão de retorno
+            if (isObject && 'dontSend' in result) return //* Não retorna nada pois é esperado que a controller ja tenha retornado
+            if (isObject && 'flagErro' in result) return res.status(500).send(result) //* Já veio no padrão de retorno
 
             if (isCustomException) return res.status(result.statusCode).send(RetornoService.error(result))
             return result instanceof Error ? res.status(500).send(RetornoService.error(result)) : res.status(200).send(RetornoService.success(result))
