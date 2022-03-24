@@ -1,7 +1,7 @@
 {
     "name": "node-express-boilerplate",
     "version": "0.0.1",
-    "description": "Awesome project developed with TypeORM.",
+    "description": "Boilerplate de express com typeorm criado por @luiys no github",
     "license": "MIT",
     "devDependencies": {
         "@types/cors": "^2.8.12",
