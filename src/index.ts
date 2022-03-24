@@ -1,13 +1,14 @@
 import 'reflect-metadata'
-import { createConnection } from 'typeorm'
 import express, { NextFunction, Request, Response } from 'express'
 import { Routes } from './routes'
 import * as dotenv from 'dotenv'
 import helmet from 'helmet'
 import cors from 'cors'
 import { RetornoService } from './utils/RetornoService'
-import { Tables } from './entity'
 import { RateLimiterMemory } from 'rate-limiter-flexible'
+import { AppDataSource } from './connection'
+import morgan from 'morgan'
+import { AbstractException } from './utils/errors/AbstractException'
 
 async function run() {
 
@@ -21,6 +22,7 @@ async function run() {
     const app = express()
     app.use(helmet())
         .use(cors())
+        .use(morgan('dev'))
         .use(express.json())
         .use(express.urlencoded({ extended: true }))
         .use(async (req, res, next) => {
@@ -40,32 +42,21 @@ async function run() {
 
     const PORT = process.env.PORT || 3333
 
-    await createConnection({
-        type: 'postgres',
-        port: <number><unknown>process.env.DB_PORT,
-        host: <string>process.env.DB_HOST,
-        username: <string>process.env.DB_USER,
-        password: <string>process.env.DB_PASSWORD,
-        database: <string>process.env.DB_NAME,
-        synchronize: false,
-        entities: [...Tables],
-        migrations: [`${__dirname}/migrations/*.ts`],
-        cli: { 'migrationsDir': 'migration/' },
-        cache: { duration: 30000 },
-    })
+    await AppDataSource.initialize()
 
     Routes.forEach(route => {
 
         (app as any)[route.method](route.route, async (req: Request, res: Response, next: NextFunction) => {
 
             const result = await (new (route.controller as any))[route.action](req, res, next)
+            const isObject = typeof result === 'object'
+            const isCustomException = result instanceof AbstractException
 
-            if (!(typeof result === 'object' && 'dontSend' in result)) {
+            if (isObject && 'dontSend' in result) return //Não retorna nada pois é esperado que a controller ja tenha retornado
+            if (isObject && 'flagErro' in result) return res.status(500).send(result) //Já veio no padrão de retorno
 
-                if (typeof result === 'object' && 'flagErro' in result) res.send(result)
-                else result instanceof Error ? res.send(RetornoService.error(result)) : res.send(RetornoService.success(result))
-
-            }
+            if (isCustomException) return res.status(result.statusCode).send(RetornoService.error(result))
+            return result instanceof Error ? res.status(500).send(RetornoService.error(result)) : res.status(200).send(RetornoService.success(result))
 
         })
 

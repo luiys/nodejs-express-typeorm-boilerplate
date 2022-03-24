@@ -1,26 +1,38 @@
-import { getRepository } from 'typeorm'
 import { Request } from 'express'
 import { Pessoa } from '../../../entity/Pessoa'
+import { AppDataSource } from '../../../connection'
+import { BadRequestException } from '../../../utils/errors/400/BadRequestException'
 
 export class UserController {
 
-    private userRepository = getRepository(Pessoa)
+    private defaultRepository = AppDataSource.getRepository(Pessoa)
 
     all() {
 
-        return this.userRepository.find()
+        return this.defaultRepository.find()
 
     }
 
     one(request: Request) {
 
-        return this.userRepository.findOne(request.params.id)
+        try {
+
+            const pessoa = this.defaultRepository.findOne({ where: { id: Number(request.params.id) } })
+            if (!pessoa) throw new BadRequestException('Usuário nào encontrado')
+
+            return pessoa
+
+        } catch (error) {
+
+            return error
+
+        }
 
     }
 
     save(request: Request) {
 
-        return this.userRepository.save(request.body)
+        return this.defaultRepository.save(request.body)
 
     }
 
@@ -28,10 +40,10 @@ export class UserController {
 
         try {
 
-            const userToRemove = await this.userRepository.findOne(request.params.id)
+            const userToRemove = await this.defaultRepository.findOne({ where: { id: Number(request.params.id) } })
             if (!userToRemove) throw new Error('User not found')
 
-            await this.userRepository.remove(userToRemove)
+            await this.defaultRepository.remove(userToRemove)
 
         } catch (error) {
 

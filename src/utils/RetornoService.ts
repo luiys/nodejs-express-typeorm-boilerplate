@@ -20,7 +20,7 @@ export class RetornoService {
             listaResultados: []
         }
 
-        Return.listaMensagens = error instanceof Error ? [error.message] : [error as string]
+        Return.listaMensagens.push(error instanceof Error ? error.message : error as string)
         return Return
 
     }
