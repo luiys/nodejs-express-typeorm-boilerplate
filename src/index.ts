@@ -5,6 +5,7 @@ import express, { NextFunction, Request, Response } from 'express'
 import helmet from 'helmet'
 import morgan from 'morgan'
 import { AppDataSource } from './connection'
+import { controllers } from './modules'
 import { Routes } from './routes'
 import { AbstractException } from './utils/errors/AbstractException'
 import { limitRate } from './utils/limitRate'
@@ -13,6 +14,7 @@ import { RetornoService } from './utils/RetornoService'
 async function run() {
 
     dotenv.config()
+    controllers
 
     const app = express()
     app.use(helmet())
@@ -50,4 +52,4 @@ async function run() {
 
 }
 
-run()
+new Promise(resolve => setTimeout(resolve, 0)).then(() => run())

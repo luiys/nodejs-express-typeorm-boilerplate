@@ -1,8 +1,10 @@
 import { Request, Response } from 'express'
 import { readdirSync, readFileSync } from 'fs'
+import { Get } from '../../utils/decorators/Methods'
 
 export class LogController {
 
+    @Get('/logs')
     all(req: Request, res: Response) {
 
         const logsFiles = (readdirSync('./logs/request-response').filter(file => file.includes('log')).map(file => {

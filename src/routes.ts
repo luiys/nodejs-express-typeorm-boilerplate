@@ -1,4 +1,3 @@
-import { UserRoute } from './modules/Acesso/routes/UserRoute'
-import { LogRoute } from './modules/Sistema/routes/LogRoute'
+/* eslint-disable @typescript-eslint/ban-types */
 
-export const Routes = [...LogRoute, ...UserRoute]
+export const Routes: { method: 'get' | 'post' | 'delete', route: string, controller: Object, action: string }[] = []
