@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer'
-import { Email } from '../types/Email'
-import { saveEmailLog } from '../loggers/emailLogger'
-import conf from '../api.config.json'
+import { Email } from '@/types/Email'
+import { saveEmailLog } from '@/loggers/emailLogger'
+import conf from '@/api.config.json'
 
 export default class EmailService {
 
