@@ -1,6 +1,6 @@
 
-import { Get } from '@/utils/decorators/Methods'
-import config from '@/api.config.json'
+import { Get } from '../../utils/decorators/Methods'
+import config from './../../api.config.json'
 
 export class SistemaController {
 

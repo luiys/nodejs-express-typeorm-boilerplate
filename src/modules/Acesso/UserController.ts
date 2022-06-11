@@ -1,8 +1,8 @@
 import { Request } from 'express'
-import { Pessoa } from '@/entity/Pessoa'
-import { AppDataSource } from '@/connection'
-import { BadRequestException } from '@/utils/errors/400/BadRequestException'
-import { Delete, Get, Post } from '@/utils/decorators/Methods'
+import { Pessoa } from '../../entity/Pessoa'
+import { AppDataSource } from '../../connection'
+import { BadRequestException } from '../../utils/errors/400/BadRequestException'
+import { Delete, Get, Post } from '../../utils/decorators/Methods'
 
 export class UserController {
 

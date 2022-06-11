@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { readdirSync, readFileSync } from 'fs'
-import { Get } from '@/utils/decorators/Methods'
+import { Get } from '../../utils/decorators/Methods'
 
 export class LogController {
 
