@@ -2,7 +2,7 @@ import { Request } from 'express'
 import { Pessoa } from '../../entity/Pessoa'
 import { AppDataSource } from '../../connection'
 import { BadRequestException } from '../../utils/errors/400/BadRequestException'
-import { Delete, Get, Post } from '../../utils/decorators/Methods'
+import { Get, Post } from '../../utils/decorators/Methods'
 
 export class UserController {
 
@@ -37,24 +37,6 @@ export class UserController {
     save(request: Request) {
 
         return this.defaultRepository.save(request.body)
-
-    }
-
-    @Delete('/users/:id')
-    async remove(request: Request) {
-
-        try {
-
-            const userToRemove = await this.defaultRepository.findOne({ where: { id: Number(request.params.id) } })
-            if (!userToRemove) throw new Error('User not found')
-
-            await this.defaultRepository.remove(userToRemove)
-
-        } catch (error) {
-
-            return error
-
-        }
 
     }
 
