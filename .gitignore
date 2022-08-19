@@ -7,3 +7,5 @@ temp/
 .env
 entities/
 dist/
+logs/
+*.lock
