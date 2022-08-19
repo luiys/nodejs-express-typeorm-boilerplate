@@ -1,43 +1,26 @@
-import { Request } from 'express'
-import { Pessoa } from '../../entity/Pessoa'
-import { AppDataSource } from '../../connection'
-import { BadRequestException } from '../../utils/errors/400/BadRequestException'
-import { Get, Post } from '../../utils/decorators/Methods'
+// import { Request } from 'express'
+// import { Get } from '../../utils/decorators/Methods'
+// import { PrismaClient } from '@prisma/client'
 
-export class UserController {
+// export class UserController {
 
-    private defaultRepository = AppDataSource.getRepository(Pessoa)
+//     prisma = new PrismaClient()
 
-    @Get('/users')
-    all() {
+//     @Get('/users')
+//     async all() {
 
-        return this.defaultRepository.find()
+//         return await this.prisma.pessoa.findMany()
 
-    }
+//     }
 
-    @Get('/users/:id')
-    one(request: Request) {
+//     @Get('/users/:id')
+//     async one(request: Request) {
 
-        try {
+//         const pessoa = await this.prisma.pessoa.findFirstOrThrow({ where: { id: Number(request.params.id) } })
+//         return pessoa
 
-            const pessoa = this.defaultRepository.findOne({ where: { id: Number(request.params.id) } })
-            if (!pessoa) throw new BadRequestException('Usuário nào encontrado')
+//     }
 
-            return pessoa
+// }
 
-        } catch (error) {
-
-            return error
-
-        }
-
-    }
-
-    @Post('/users')
-    save(request: Request) {
-
-        return this.defaultRepository.save(request.body)
-
-    }
-
-}
+//! Controller de exemplo

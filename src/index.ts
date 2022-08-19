@@ -4,14 +4,13 @@ import * as dotenv from 'dotenv'
 import express, { NextFunction, Request, Response } from 'express'
 import helmet from 'helmet'
 import morgan from 'morgan'
-import { AppDataSource } from './connection'
 import { controllers } from './modules'
 import { Routes } from './routes'
 import { AbstractException } from './utils/errors/AbstractException'
 import { limitRate } from './utils/limitRate'
 import { RetornoService } from './utils/RetornoService'
 
-async function run() {
+function run() {
 
     dotenv.config()
     controllers
@@ -25,8 +24,6 @@ async function run() {
         .use(limitRate)
 
     const PORT = process.env.PORT || 3333
-
-    await AppDataSource.initialize()
 
     Routes.forEach(route => {
 
