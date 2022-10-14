@@ -1,15 +1,15 @@
 # Etapas após baixar o boilerplate
 
-- yarn
+- yarn (como de costume)
 
-- dentro de others/commands.txt editar o comando de gerar o provider do prisma com o tipo de banco que será usado e depois executar o comando
+- dentro de others/commands.txt editar o comando de gerar entidades com as credencias do banco de dados que será usado na API
 
-- editar o DATABASE_URL que foi gerado no .env com as credenciais do banco
+- rodar o comando e colocar as entidades geradas dentro da pasta src/entity/
 
-- npx prisma db pull
+- chamar as entidades dentro da src/index.ts onde é criada a conexao com bd na property "entities"
 
-- npx prisma generate
+- em src/index.ts alterar o tipo de banco de dados na conexao na property "type"         
 
-- instanciar o prisma nas controllers
+- em src/modules/acesso/UserController.ts alterar o diretorio da entidade da tabela de usuarios
 
-- adicionar ao .env as variaveis que estao no .env.example tambem
+- criar um .env como base o que esta no arquivo .env.example

@@ -67,13 +67,3 @@ export function Post(route: string) {
     }
 
 }
-
-export function Delete(route: string) {
-
-    return function (target: { constructor: any }, key: any, descriptor: any) {
-
-        return main(target, key, descriptor, 'delete', route)
-
-    }
-
-}
