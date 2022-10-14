@@ -12,4 +12,8 @@
 
 - em src/modules/acesso/UserController.ts alterar o diretorio da entidade da tabela de usuarios
 
-- criar um .env como base o que esta no arquivo .env.example
+- em src/index.ts alterar o tipo de banco de dados na conexao na property "type"         
+
+- em src/modules/acesso/UserController.ts alterar o diretorio da entidade da tabela de usuarios
+
+- adicionar ao .env as variaveis que estao no .env.example tambem
