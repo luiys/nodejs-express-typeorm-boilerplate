@@ -1,35 +1,37 @@
-import { Request } from 'express'
-import { Pessoa } from '../../entity/Pessoa'
-import { AppDataSource } from '../../connection'
-import { BadRequestException } from '../../utils/errors/400/BadRequestException'
-import { Get, Post } from '../../utils/decorators/Methods'
+//!Exemplo de controller
 
-export class UserController {
+// import { Request } from 'express'
+// import { Pessoa } from '../../entity/Pessoa'
+// import { AppDataSource } from '../../connection'
+// import { BadRequestException } from '../../utils/errors/400/BadRequestException'
+// import { Get, Post } from '../../utils/decorators/Methods'
 
-    private defaultRepository = AppDataSource.getRepository(Pessoa)
+// export class UserController {
 
-    @Get('/users')
-    all() {
+//     private defaultRepository = AppDataSource.getRepository(Pessoa)
 
-        return this.defaultRepository.find()
+//     @Get('/users')
+//     all() {
 
-    }
+//         return this.defaultRepository.find()
 
-    @Get('/users/:id')
-    one(request: Request) {
+//     }
 
-        const pessoa = this.defaultRepository.findOne({ where: { id: Number(request.params.id) } })
-        if (!pessoa) throw new BadRequestException('Usuário nào encontrado')
+//     @Get('/users/:id')
+//     one(request: Request) {
 
-        return pessoa
+//         const pessoa = this.defaultRepository.findOne({ where: { id: Number(request.params.id) } })
+//         if (!pessoa) throw new BadRequestException('Usuário nào encontrado')
 
-    }
+//         return pessoa
 
-    @Post('/users')
-    save(request: Request) {
+//     }
 
-        return this.defaultRepository.save(request.body)
+//     @Post('/users')
+//     save(request: Request) {
 
-    }
+//         return this.defaultRepository.save(request.body)
 
-}
+//     }
+
+// }
