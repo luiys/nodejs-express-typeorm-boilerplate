@@ -1,33 +1,23 @@
-// // import { Request } from 'express'
-// // import { Get } from '../../utils/decorators/Methods'
-// // import { PrismaClient } from '@prisma/client'
+// import { Request } from 'express'
+// import { Get } from '../../utils/decorators/Methods'
+// import Prisma from 'prisma'
 
 // export class UserController {
 
-//     private defaultRepository = AppDataSource.getRepository(Pessoa)
+//     prisma = new Prisma()
 
 //     @Get('/users')
 //     all() {
 
-//         return this.defaultRepository.find()
+//         return await this.prisma.findMany()
 
 //     }
 
 //     @Get('/users/:id')
 //     one(request: Request) {
 
-//         try {
-
-//             const pessoa = this.defaultRepository.findOne({ where: { id: Number(request.params.id) } })
-//             if (!pessoa) throw new BadRequestException('Usuário nào encontrado')
-
-// //     prisma = new PrismaClient()
-
-//         } catch (error) {
-
-// //         return await this.prisma.pessoa.findMany()
-
-//         }
+//         const pessoa = await this.prisma.findOneOrThrow({ where: { id: Number(request.params.id) } })
+//         return pessoa
 
 //     }
 
