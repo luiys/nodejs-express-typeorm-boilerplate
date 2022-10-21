@@ -1,9 +1,9 @@
-//import { Pessoa } from './Pessoa' //! Importa a entidade
+//import { Exemplo } from './Exemplo' //! Importa a entidade
 
 export const Tables = {
     *[Symbol.iterator]() {
 
-        //yield Pessoa //! Adiciona a entidade ao array
+        //yield Exemplo //! Adiciona a entidade ao array
 
     }
 }
