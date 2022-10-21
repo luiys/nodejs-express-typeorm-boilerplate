@@ -35,6 +35,9 @@ function main(target: any, key: string, descriptor: PropertyDescriptor, method: 
 
             }
 
+            saveRequestResponseLog(route, 'info', method === 'post' ? args[0].body : args[0].params, result)
+            return result
+
         } catch (error: any) {
 
             saveRequestResponseLog(route, 'error', method === 'post' ? args[0].body : args[0].params, error.message)
