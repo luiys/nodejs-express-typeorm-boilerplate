@@ -1,0 +1,57 @@
+Documentação feita por: Daniel Leite
+https://github.com/Daniel-leite064
+
+ARQUIVO DE FUNCIONAMENTO DA LIB PM2
+
+1- PM2 é utilizado para fazer o projeto "rodar" em background na máquina, sendo utilizado bastante para os servidores.
+
+2- PM2 possui alguns comandos para gerenciar ele, sendo os principais:
+    - pm2 list (comando para listar todos os processos que o pm2 está gerenciando)
+
+    - pm2 start (comando para iniciar o gerenciamento do processo pelo pm2)
+    exemplo de uso: pm2 start 1 (LER O TÓPICO 3 PARA MAIS DETALHES)
+
+    - pm2 stop (comando para parar um processo específico que o pm2 está executando)
+    exemplo de uso: pm2 stop 1
+
+    - pm2 save (comando para salvar o "schema" de gerenciamento atualmente utilizado) 
+    exemplo de uso: após colocar o pm2 gerenciando todos os processos desejados, geralmente usamos o pm2 save.
+
+    - pm2 logs (comando para ver todos os logs do processo que o pm2 está executando) 
+    exemplo de uso: pm2 logs 1
+
+    - pm2 resurrect (comando para "ressucitar" todos os processos que estão parados salvos pelo comando "pm2 save") 
+    exemplo de uso: geralmente usamos o pm2 kill para matar todos os processos gerenciados, e logo em seguida o pm2 resurrect,
+    e também é o comando que usamos assim que o windows inicia, para fazer os processos salvos pelo "pm2 save" iniciarem com o boot da máquina.
+
+    - pm2 kill (comando para "matar" todos os processos gerenciados pelo pm2)
+    exemplo de uso: deu tudo errado... pm2 está "cagado kk" usamos o pm2 kill para parar totalmente o pm2 e rodamos em seguida o famoso
+    "yarn dev" individualmente , ou usamos o "pm2 resurrect" para rodar todo o pm2 novamente assim fazendo um "restart" geral.
+
+
+3- Procedimento para fazer o PM2 executar um processo (projeto)
+    3.1 - buildar a aplicação typescript pelo comando "tsc" (necessário ter a lib typescript instalado globalmente "npm i -g typescript")
+    3.2 - utilizar o comando pelo terminal "cd build" para acessar a pasta build gerada pelo "tsc"
+    3.3 - utilizar o comando "pm2 start <nome do arquivo js principal>" exemplo de uso: pm2 start main.js
+        * É possível nomear o processo passando o parametro "--name <nome>" exemplo de uso: pm2 start main.js --name backApi
+    3.4 - utilizar o comando pm2 save para salvar o novo "schema" criado/alterado.
+
+4- OBSERVAÇÕES IMPORTANTES!!
+    - SEMPRE, eu digo SEMPRE! Que realizarmos QUALQUER alteração no projeto, o BUILD do projeto não sofre as alterações!
+    precisamos BUILDAR novamente o projeto pelo comando "tsc" para que o build sofra as alterações e assim, o pm2 estará ATUALIZADO!
+    - Caso não buildemos a alteração realizada , o pm2 "rodará" uma versão DIFERENTE da versão atual que usamos pelo "yarn dev".
+    - Após buildar as alterações, devemos realizar os procedimentos pm2 stop <ID> e prosseguir com os procedimentos do tópico 3.2 , 3.3 , 3.4.
+
+5- Como fazer o pm2 iniciar com o boot da máquina (WINDOWS)
+    - Após realizar todo o procedimento de iniciar o gereciamento do projeto e utilizar o "pm2 save" seguir os passos:
+    5.1 - Abrir o "executar"
+    5.2 - Digitar no "executar" o comando "shell:startup"
+        * Estes passos são responsáveis por abrir um diretório do windows onde ele é responsavel por executar TUDO que está lá dentro.
+    5.3 - Criar um arquivo com extensão .cmd
+    5.4 - Editar o conteúdo do arquivo e dentro dele digitar "pm2 rescurrect"
+    - Após todo o procedimento feito, assim que o windows realizar o boot, este arquivo será lido e o comando pm2 resurrect será enviado
+    fazendo com que todos processos gerenciados pelo pm2 SALVOS sejam "levantados"
+
+Fontes: 
+https://www.npmjs.com/package/pm2
+https://pm2.keymetrics.io/
