@@ -40,6 +40,7 @@
         "build": "tsc && webpack",
         "start": "node dist/api.bundle.js",
         "lint": "eslint . --ext .ts",
-        "lint-fix": "eslint --fix . --ext .ts"
+        "lint-fix": "eslint --fix . --ext .ts",
+        "g:c": "lg-cli-tool generate controller --dir"
     }
 }
