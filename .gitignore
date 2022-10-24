@@ -9,3 +9,4 @@ entities/
 dist/
 logs/
 ormlogs.log
+*.lock
