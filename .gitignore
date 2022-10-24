@@ -8,3 +8,4 @@ temp/
 entities/
 dist/
 logs/
+ormlogs.log
