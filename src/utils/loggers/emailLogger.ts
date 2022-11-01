@@ -1,6 +1,6 @@
 import { format, createLogger, transports } from 'winston'
 import 'winston-daily-rotate-file'
-import apiConfig from '../api.config.json'
+import apiConfig from '../../api.config.json'
 
 const { timestamp, label, printf } = format
 const pattern = printf(({ level, message, label, timestamp }) => `${timestamp} [${level}] ${label} : ${message}`)
