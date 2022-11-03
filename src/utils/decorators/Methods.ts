@@ -1,5 +1,5 @@
 
-import { saveRequestResponseLog } from '../../loggers/requestResponseLogger'
+import { saveRequestResponseLog } from '../loggers/requestResponseLogger'
 import { Routes } from '../../routes'
 
 function main(target: any, key: string, descriptor: PropertyDescriptor, method: 'get' | 'post' | 'put' | 'delete', route: string) {
