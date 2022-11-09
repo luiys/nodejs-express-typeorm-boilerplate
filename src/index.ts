@@ -36,6 +36,7 @@ async function run() {
             const isObject = typeof result === 'object'
             const isCustomException = result instanceof AbstractException
 
+            if (isObject && 'status' in result) return res.status(result.status).send(result)
             if (isObject && 'dontSend' in result) return //* Não retorna nada pois é esperado que a controller ja tenha retornado
             if (isObject && 'flagErro' in result) return res.status(500).send(result) //* Já veio no padrão de retorno
 

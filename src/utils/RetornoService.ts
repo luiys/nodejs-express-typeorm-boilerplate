@@ -38,4 +38,12 @@ export class RetornoService {
 
     }
 
+    public static custom(status = 200, flagErro: boolean, listaMensagens: string[], listaResultados: any) {
+
+        return {
+            status, flagErro, listaMensagens, listaResultados
+        }
+
+    }
+
 }
